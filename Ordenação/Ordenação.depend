@@ -1,5 +1,6 @@
 # depslib dependency file v1.0
-1726524648 source:c:\users\ana_j\onedrive\Área de trabalho\projetos c c++\ed\ordenação\algoritimos-de-ordenacao\ordenação\main.c
+1726526695 source:c:\users\ana_j\onedrive\Área de trabalho\projetos c c++\ed\ordenação\algoritimos-de-ordenacao\ordenação\main.c
 	<stdio.h>
 	<stdlib.h>
+	<time.h>
 

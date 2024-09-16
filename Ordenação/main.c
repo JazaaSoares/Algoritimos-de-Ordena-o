@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 void bubbleSort(int vet[], int n);
 void mergeSort(int *vet, int inicio, int fim);
@@ -73,29 +74,81 @@ void merge(int *vet, int inicio, int meio, int fim){
     free(temp);
 }
 
-int main()
-{
-    int vet[] = {1,2,45,12,69,35,27};
-    int n = 7;
+void geradorVetorAleatorio(int* array, int size) {
+    for (int i = 0; i < size; i++) {
+        array[i] = rand() % 1000; // Gera números aleatórios entre 0 e size
+    }
+}
 
-    printf("Array original: \n");
-    printVet(vet, n);
+void geradorVetorOrdenado(int* array, int size) {
+    for (int i = 0; i < size; i++) {
+        array[i] = i; // Gera números ordenados
+    }
+}
 
-    bubbleSort(vet, n);
+void geradorVetorOrdenadoReverso(int* array, int size) {
+    for (int i = 0; i < size; i++) {
+        array[i] = size - i - 1; // Gera números em ordem reversa
+    }
+}
 
-    printf("Array ordenado: \n");
-    printVet(vet, n);
+void calculaTempoExecucao(void (*sortFunction)(int[], int), int arr[], int size, const char *algorithmName) {
+    clock_t start, end;
+    double cpu_time_used;
 
-    int vet2[] = {56,69,323,45,12364,98521,100000,3,-5};
-    n = 9;
-    int inicio = 0;
-    int fim = n-1;
+    start = clock();
+    sortFunction(arr, size);
+    end = clock();
 
-    printVet(vet2, n);
+    cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
+    printf("Tempo de execução para %s: %f segundos\n", algorithmName, cpu_time_used);
+}
 
-    mergeSort(vet2, inicio, fim);
+void calculaTempoExecucaoMergSort(void (*sortFunction)(int[], int, int), int arr[], int left, int right, const char *algorithmName) {
+    clock_t start, end;
+    double cpu_time_used;
 
-    printVet(vet2, n);
+    start = clock();
+    sortFunction(arr, left, right);
+    end = clock();
+
+    cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
+    printf("Tempo de execução para %s: %f segundos\n\n", algorithmName, cpu_time_used);
+}
+
+int main() {
+    int tamanhos[] = {100, 1000, 10000, 100000};
+    int numTamanhos = sizeof(tamanhos) / sizeof(tamanhos[0]);
+
+    for (int i = 0; i < numTamanhos; i++) {
+        int tamanho = tamanhos[i];
+        int *vetor = (int *)malloc(tamanho * sizeof(int));
+        printf("-----------------------------------------------------\n");
+
+        printf("Tamanho do vetor: %d\n", tamanho);
+
+        // Dados Aleatórios
+        geradorVetorAleatorio(vetor, tamanho);
+        calculaTempoExecucao(bubbleSort, vetor, tamanho, "Bubble Sort (aleatorio)");
+       // calculaTempoExecucao(selectionSort, arr, size, "Selection Sort (aleatorio)");
+        //calculaTempoExecucao(insertionSort, arr, size, "Insertion Sort (aleatorio)");
+        calculaTempoExecucaoMergSort(mergeSort, vetor, 0, tamanho-1, "Merge Sort (aleatorio)");
+
+        // Dados Ordenados
+        geradorVetorOrdenado(vetor, tamanho);
+        calculaTempoExecucao(bubbleSort, vetor, tamanho, "Bubble Sort (Ordenado)");
+       // calculaTempoExecucao(selectionSort, arr, size, "Selection Sort (Ordenado)");
+      //  calculaTempoExecucao(insertionSort, arr, size, "Insertion Sort (Ordenado)");
+        calculaTempoExecucaoMergSort(mergeSort, vetor, 0, tamanho-1, "Merge Sort (Ordenado)");
+
+        // Dados Reversamente Ordenados
+        geradorVetorOrdenadoReverso(vetor, tamanho);
+        calculaTempoExecucao(bubbleSort, vetor, tamanho, "Bubble Sort (Ordenado reverso)");
+        //calculaTempoExecucao(selectionSort, arr, size, "Selection Sort (Ordenado reverso)");
+       // calculaTempoExecucao(insertionSort, arr, size, "Insertion Sort (Ordenado reverso)");
+        calculaTempoExecucaoMergSort(mergeSort, vetor, 0, tamanho-1, "Merge Sort (Ordenado reverso)");
+        free(vetor);
+    }
 
     return 0;
 }

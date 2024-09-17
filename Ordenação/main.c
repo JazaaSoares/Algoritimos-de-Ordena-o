@@ -3,6 +3,8 @@
 #include <time.h>
 
 void bubbleSort(int vet[], int n);
+void selectionSort (int vet [], int n);
+void insertionSort(int vet [], int n);
 void mergeSort(int *vet, int inicio, int fim);
 void merge(int *vet, int iniciio, int meio, int fim);
 
@@ -20,6 +22,41 @@ void bubbleSort(int *vet, int n){ //n^2
            // printf("Eita i :%d , %d \n\n ", vet[j], vet[j+1]);
         }
     }
+}
+
+void selectionSort(int *vet, int n){
+    for (int i = 0; i < n - 1; i ++){
+       int menor = i;
+        for (int j = i + 1; j < n; j++){
+            if (vet[j] < vet[menor])
+            menor = j;
+
+        //troca após encontrar o menor
+        int aux = vet[i];
+        vet[i] = vet[menor];
+        vet[menor] = aux;
+        }
+    }
+
+}
+
+
+void insertionSort(int *vet, int n){
+    for (int i = 1; i < n; i++){
+        int aux = vet[i];
+        int j = i - 1;
+
+        // elementos maiores que aux sao movidos posição a frente
+        while (j >= 0 && vet[j] > aux){
+            vet[j + 1] = vet[j];
+            j--;
+
+        }
+        //o valor de aux na posição correta
+        vet[j + 1] = aux;
+    }
+
+
 }
 
 void printVet(int vet[], int n) {
@@ -117,7 +154,7 @@ void calculaTempoExecucaoMergSort(void (*sortFunction)(int[], int, int), int arr
 }
 
 int main() {
-    int tamanhos[] = {100, 1000, 10000, 100000};
+    int tamanhos[] = {100, 250, 500, 1000, 2500, 5000};
     int numTamanhos = sizeof(tamanhos) / sizeof(tamanhos[0]);
 
     for (int i = 0; i < numTamanhos; i++) {
@@ -130,22 +167,22 @@ int main() {
         // Dados Aleatórios
         geradorVetorAleatorio(vetor, tamanho);
         calculaTempoExecucao(bubbleSort, vetor, tamanho, "Bubble Sort (aleatorio)");
-       // calculaTempoExecucao(selectionSort, arr, size, "Selection Sort (aleatorio)");
-        //calculaTempoExecucao(insertionSort, arr, size, "Insertion Sort (aleatorio)");
+        calculaTempoExecucao(selectionSort, vetor, tamanho, "Selection Sort (aleatorio)");
+        calculaTempoExecucao(insertionSort, vetor, tamanho, "Insertion Sort (aleatorio)");
         calculaTempoExecucaoMergSort(mergeSort, vetor, 0, tamanho-1, "Merge Sort (aleatorio)");
 
         // Dados Ordenados
         geradorVetorOrdenado(vetor, tamanho);
         calculaTempoExecucao(bubbleSort, vetor, tamanho, "Bubble Sort (Ordenado)");
-       // calculaTempoExecucao(selectionSort, arr, size, "Selection Sort (Ordenado)");
-      //  calculaTempoExecucao(insertionSort, arr, size, "Insertion Sort (Ordenado)");
+        calculaTempoExecucao(selectionSort, vetor, tamanho, "Selection Sort (Ordenado)");
+        calculaTempoExecucao(insertionSort, vetor, tamanho, "Insertion Sort (Ordenado)");
         calculaTempoExecucaoMergSort(mergeSort, vetor, 0, tamanho-1, "Merge Sort (Ordenado)");
 
         // Dados Reversamente Ordenados
         geradorVetorOrdenadoReverso(vetor, tamanho);
         calculaTempoExecucao(bubbleSort, vetor, tamanho, "Bubble Sort (Ordenado reverso)");
-        //calculaTempoExecucao(selectionSort, arr, size, "Selection Sort (Ordenado reverso)");
-       // calculaTempoExecucao(insertionSort, arr, size, "Insertion Sort (Ordenado reverso)");
+        calculaTempoExecucao(selectionSort, vetor, tamanho, "Selection Sort (Ordenado reverso)");
+        calculaTempoExecucao(insertionSort, vetor, tamanho, "Insertion Sort (Ordenado reverso)");
         calculaTempoExecucaoMergSort(mergeSort, vetor, 0, tamanho-1, "Merge Sort (Ordenado reverso)");
         free(vetor);
     }

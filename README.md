@@ -1,8 +1,8 @@
 
 ## 1. Implementação dos Algoritmos:
 		o Bubble Sort OK!
-		o Selection Sort OK !
-		o Insertion Sort OK !
+		o Selection Sort OK!
+		o Insertion Sort OK!
 		o Merge Sort ou Quicksort (o grupo deve escolher um dos dois) OK!
 
 ## 2. Geração de Dados de Teste:
